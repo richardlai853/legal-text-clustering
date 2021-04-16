@@ -1,6 +1,6 @@
 import csv
 
-with open('lei.txt') as f:
+with open('lei.txt',encoding='big5') as f:
     lines = f.readlines()
 
 cnt = 0
@@ -31,6 +31,11 @@ for line in lines:
     if line.startswith('DEPT'):
         cnt = cnt + 1
         current_dept = line.split('-')[1].replace('\n', '')  # get current dept name from tags
+        current_article_title = ''
+        current_article = ''
+        current_lei = ''
+        current_chapter = ''
+        current_chapter_title = ''
         # print('dept', current_dept.replace('\n', ''))
     elif line.startswith('第') and line.endswith('法規\n'):
         current_lei = line[line.index('第') + 1:line.index('號')]  # get current lei number
@@ -54,7 +59,7 @@ for line in lines:
             output.append(payload)
             # print(current_dept, current_lei, current_chapter, current_article, line)
 
-with open('lei_ouput.csv', mode='w') as lei_file:
+with open('lei_output.csv', mode='w') as lei_file:
     lei_writer = csv.writer(lei_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     for item in output:
         lei_writer.writerow(
